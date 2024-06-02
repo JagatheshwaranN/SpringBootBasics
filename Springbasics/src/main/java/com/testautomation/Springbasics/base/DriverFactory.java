@@ -19,6 +19,7 @@ public class DriverFactory {
 
         if("chrome".equalsIgnoreCase(browser)){
             driver = new ChromeDriver();
+            driver.manage().window().maximize();
         }
          return driver;
     }
