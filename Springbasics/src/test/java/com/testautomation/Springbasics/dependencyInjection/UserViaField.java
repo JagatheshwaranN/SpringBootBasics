@@ -1,21 +1,20 @@
-package com.testautomation.Springbasics.dIUsingConstructor;
+package com.testautomation.Springbasics.dependencyInjection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserViaConstructor {
+public class UserViaField {
 
+    @Autowired
     private Address address;
 
+    @Autowired
     private Salary salary;
-
-    public UserViaConstructor(Address address, Salary salary){
-        this.address = address;
-        this.salary = salary;
-    }
 
     public void printUserDetails() {
         System.out.println(address.getAddress());
         System.out.println(salary.getSalary());
     }
+
 }

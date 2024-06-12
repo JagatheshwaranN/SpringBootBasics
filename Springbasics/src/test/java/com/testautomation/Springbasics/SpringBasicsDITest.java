@@ -1,11 +1,14 @@
 package com.testautomation.Springbasics;
 
-import com.testautomation.Springbasics.dIUsingConstructor.UserViaConstructor;
-import com.testautomation.Springbasics.dIUsingConstructor.UserViaField;
-import com.testautomation.Springbasics.dIUsingConstructor.UserViaSetter;
+import com.testautomation.Springbasics.dependencyInjection.UserViaConstructor;
+import com.testautomation.Springbasics.dependencyInjection.UserViaField;
+import com.testautomation.Springbasics.dependencyInjection.UserViaSetter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class SpringBasicsDITest {
@@ -18,6 +21,15 @@ public class SpringBasicsDITest {
 
     @Autowired
     private UserViaField userViaField;
+
+    @Value("${name:Test}")
+    private String name;
+
+    @Value("${timeout}")
+    private int timeout;
+
+    @Value("${browsers}")
+    private List<String> browsers;
 
     @Test
     void validateUserViaConstructorTest() {
@@ -33,5 +45,13 @@ public class SpringBasicsDITest {
     void validateUserViaFieldTest() {
         userViaField.printUserDetails();
     }
+
+    @Test
+    void validateValuesInjection() {
+        System.out.println(this.name);
+        System.out.println(this.timeout);
+        System.out.println(this.browsers);
+    }
+
 
 }

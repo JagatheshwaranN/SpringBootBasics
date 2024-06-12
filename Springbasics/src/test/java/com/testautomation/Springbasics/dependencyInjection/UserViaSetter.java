@@ -1,4 +1,4 @@
-package com.testautomation.Springbasics.dIUsingConstructor;
+package com.testautomation.Springbasics.dependencyInjection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
