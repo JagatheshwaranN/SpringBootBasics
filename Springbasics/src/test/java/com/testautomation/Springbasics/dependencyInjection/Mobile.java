@@ -6,18 +6,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Address {
+public class Mobile {
 
-    @Value("${location}")
-    private String location;
+    @Value("${phone}")
+    private String phone;
 
+    @Autowired
+    private Faker faker;
 
-
-    public String getAddress(){
-        return location;
+    public String getPhone() {
+        return this.faker.phoneNumber().cellPhone();
     }
-
-
-
 
 }

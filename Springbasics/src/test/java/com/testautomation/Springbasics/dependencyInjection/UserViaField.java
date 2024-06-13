@@ -12,9 +12,13 @@ public class UserViaField {
     @Autowired
     private Salary salary;
 
+    @Autowired
+    private Mobile mobile;
+
     public void printUserDetails() {
         System.out.println(address.getAddress());
         System.out.println(salary.getSalary());
+        System.out.println(mobile.getPhone());
     }
 
 }

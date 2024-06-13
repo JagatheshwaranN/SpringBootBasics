@@ -10,6 +10,7 @@ public class UserViaSetter {
 
     private Salary salary;
 
+    private Mobile mobile;
 
     @Autowired
     public void setAddress(Address address) {
@@ -21,9 +22,15 @@ public class UserViaSetter {
         this.salary = salary;
     }
 
+    @Autowired
+    public void setMobile(Mobile mobile) {
+        this.mobile = mobile;
+    }
+
     public void printUserDetails() {
         System.out.println(address.getAddress());
         System.out.println(salary.getSalary());
+        System.out.println(mobile.getPhone());
     }
 
 }
