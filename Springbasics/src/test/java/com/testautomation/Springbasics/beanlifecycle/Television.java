@@ -12,14 +12,14 @@ public class Television {
     private String tvName;
 
     public Television(){
-        System.out.println("Inside the Constructor : "+ this.tvName);
+      //  System.out.println("Inside the Constructor : "+ this.tvName);
 
     }
 
     @PostConstruct
     public void setup() {
-        System.out.println("Inside the Initialize Method : "+ this.tvName);
-        System.out.println("TV is turned ON");
+        // System.out.println("Inside the Initialize Method : "+ this.tvName);
+        // System.out.println("TV is turned ON");
     }
 
     public void playChannel(){
@@ -35,7 +35,7 @@ public class Television {
 
     @PreDestroy
     public void tearDown() {
-        System.out.println("TV is turned OFF");
+        // System.out.println("TV is turned OFF");
     }
 
 }

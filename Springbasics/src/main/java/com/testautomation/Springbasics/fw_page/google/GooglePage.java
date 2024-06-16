@@ -19,6 +19,7 @@ public class GooglePage extends Base {
     private String appURL;
 
     public void launch() {
+        this.webDriver.manage().window().maximize();
         this.webDriver.get(appURL);
     }
 
