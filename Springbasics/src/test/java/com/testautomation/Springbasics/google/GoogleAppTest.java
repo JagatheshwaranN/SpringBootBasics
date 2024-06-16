@@ -5,6 +5,7 @@ import com.testautomation.Springbasics.fw_page.google.GooglePage;
 import com.testautomation.Springbasics.fw_util.ScreenCapture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.testng.Assert;
 
 public class GoogleAppTest extends SpringTestNGTest {
@@ -12,6 +13,7 @@ public class GoogleAppTest extends SpringTestNGTest {
     @Autowired
     private GooglePage googlePage;
 
+    @Lazy
     @Autowired
     private ScreenCapture screenCapture;
 
