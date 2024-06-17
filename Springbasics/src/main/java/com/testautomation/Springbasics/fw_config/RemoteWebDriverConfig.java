@@ -3,7 +3,9 @@ package com.testautomation.Springbasics.fw_config;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 
@@ -25,25 +29,42 @@ import java.time.Duration;
 public class RemoteWebDriverConfig {
 
     @Value("${selenium.grid.url}")
-    private URL url;
+    private String url;
 
     @Autowired
-    private DesiredCapabilities desiredCapabilities;
+    // private DesiredCapabilities desiredCapabilities;
 
     @Bean
     @ConditionalOnProperty(name = "browser", havingValue = "firefox")
     public WebDriver remoteFirefoxDriver() {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setPlatform(Platform.ANY);
         desiredCapabilities.setBrowserName("Firefox");
-        return new RemoteWebDriver(this.url, desiredCapabilities);
+        FirefoxOptions options = new FirefoxOptions();
+        // #14125 - Selenium 4.21.0 version bug - Unable to launch session with Grid without below parameter
+        options.setEnableDownloads(true);
+        options.merge(desiredCapabilities);
+        try {
+            return new RemoteWebDriver(URI.create(url).toURL(), desiredCapabilities);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public WebDriver remoteChromeDriver() {
+    //@ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "browser", havingValue = "chrome")
+    public WebDriver remoteChromeDriver() throws MalformedURLException {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setPlatform(Platform.ANY);
         desiredCapabilities.setBrowserName("Chrome");
-        return new RemoteWebDriver(this.url, desiredCapabilities);
+        ChromeOptions options = new ChromeOptions();
+        // #14125 - Selenium 4.21.0 version bug - Unable to launch session with Grid without below parameter
+        options.setEnableDownloads(true);
+        options.merge(desiredCapabilities);
+        return new RemoteWebDriver(new URL("http://localhost:4444/"), desiredCapabilities);
     }
 
 }
