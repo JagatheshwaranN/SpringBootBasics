@@ -1,5 +1,6 @@
 package com.testautomation.Springbasics.fw_config;
 
+import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,7 +24,7 @@ import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 
-@Lazy
+//@Lazy
 @Configuration
 @Profile("remote")
 public class RemoteWebDriverConfig {
@@ -32,7 +33,7 @@ public class RemoteWebDriverConfig {
     private String url;
 
     @Autowired
-    // private DesiredCapabilities desiredCapabilities;
+    //private DesiredCapabilities desiredCapabilities;
 
     @Bean
     @ConditionalOnProperty(name = "browser", havingValue = "firefox")
@@ -56,15 +57,34 @@ public class RemoteWebDriverConfig {
     //@ConditionalOnMissingBean
     @ConditionalOnProperty(name = "browser", havingValue = "chrome")
     public WebDriver remoteChromeDriver() throws MalformedURLException {
+//        desiredCapabilities.setPlatform(Platform.ANY);
+//        desiredCapabilities.setBrowserName("Chrome");
+//        ChromeOptions options = new ChromeOptions();
+//        // #14125 - Selenium 4.21.0 version bug - Unable to launch session with Grid without below parameter
+//        options.setEnableDownloads(true);
+//        options.merge(desiredCapabilities);
+
+//        System.setProperty("otel.traces.exporter", "jaeger");
+//        System.setProperty("otel.exporter.jaeger.endpoint", "http://localhost:14250");
+//        System.setProperty("otel.resource.attributes", "service.name=selenium-java-client");
+       // ImmutableCapabilities capabilities = new ImmutableCapabilities("browserName", "chrome");
+//        ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.setEnableDownloads(true);
+//        chromeOptions.setCapability("browserVersion", "125.0.6422.142");
+//        chromeOptions.setCapability("platformName", "Windows");
+// Showing a test name instead of the session id in the Grid UI
+//        chromeOptions.setCapability("se:name", "My simple test");
+
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setPlatform(Platform.ANY);
-        desiredCapabilities.setBrowserName("Chrome");
-        ChromeOptions options = new ChromeOptions();
-        // #14125 - Selenium 4.21.0 version bug - Unable to launch session with Grid without below parameter
-        options.setEnableDownloads(true);
-        options.merge(desiredCapabilities);
-        return new RemoteWebDriver(new URL("http://localhost:4444/"), desiredCapabilities);
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setPlatform(Platform.WINDOWS);
+        capabilities.setBrowserName("Chrome");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        // Selenium 4.21.0 version bug - Unable to launch session with Grid without below parameter
+        chromeOptions.setEnableDownloads(true);
+        chromeOptions.merge(capabilities);
+
+        return new RemoteWebDriver(URI.create("http://localhost:4444").toURL(), capabilities);
     }
 
 }
